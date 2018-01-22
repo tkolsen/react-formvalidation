@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { func, object } from 'prop-types';
+import React, {Component} from "react";
+import {func, object} from 'prop-types';
 import update from "immutability-helper";
 
 import getErrorMessage from "./getErrorMessage";
-import { addPropsToChildren } from "./addpropstochildren";
-import {getInitialState, addCustomValidation, addOnBlur, addOnChange, generateInitialState} from "./helpers"
+import {addPropsToChildren} from "./addpropstochildren";
+import {addCustomValidation, generateInitialState} from "./helpers"
 
 
 class FormValidated extends Component {
@@ -28,7 +28,7 @@ class FormValidated extends Component {
     updateField = (fieldId, newState) => {
         this.setState(prevState =>
             update(prevState, {
-                fields: { [fieldId]: { $merge: newState }} 
+                fields: {[fieldId]: {$merge: newState}}
             })
         );
     };
@@ -75,7 +75,7 @@ class FormValidated extends Component {
 
                     for (let i = 0; i < formElements.length; i++) {
                         const {id, value, type} = formElements[i];
-                        if (!["submit", "reset", "button"].includes(type)){
+                        if (!["submit", "reset", "button"].includes(type)) {
                             values[id] = value;
                         }
                     }
@@ -83,8 +83,6 @@ class FormValidated extends Component {
                 }
             })
     };
-
-
 
 
     inputChange = onChange => e => {
@@ -109,29 +107,26 @@ class FormValidated extends Component {
         if (onChange) onChange(e)
     };
 
-    selectChange = e => {
+    selectChange = onChange => e => {
         const field = e.target;
-        this.updateField(field.id, {value: field.value});
         if (!this.state.fields[field.id].valid) {
             this.validateField(field.id, field);
         }
-        addOnChange(field.id, field, this.props.onChange);
+        if (onChange) onChange(e);
     };
 
-    colorChange = e => {
+    colorChange = onChange => e => {
         const field = e.target;
-        this.updateField(field.id, {value: field.value});
         if (!this.state.fields[field.id].valid) {
             this.validateField(field.id, field);
         }
-        addOnChange(field.id, field, this.props.onChange);
+        if (onChange) onChange(e);
     };
 
-    checkboxChange = e => {
+    checkboxChange = onChange => e => {
         const field = e.target;
-        this.updateField(field.id, {value: field.checked});
         this.validateField(field.id, field);
-        addOnChange(field.id, field, this.props.onChange);
+        if (onChange) onChange(e);
     };
 
     // TODO: Add file
@@ -147,27 +142,6 @@ class FormValidated extends Component {
     };
 
 
-    componentWillReceiveProps(nextProps) {
-
-        // TODO: Mulig optimaliseringP Kontroller gamle mot nye props.
-
-        let newState = getInitialState(nextProps.fields) 
-
-        this.setState(prevState => {
-
-            Object.keys(newState.fields).forEach(key => {
-                if (prevState.fields[key]) {
-                    newState.fields[key] = prevState.fields[key]
-                }
-            });
-
-            return update(prevState, {
-                fields: { $set: newState.fields }
-            });
-        });
-    }
-
-
     render() {
 
         // TODO: Nå rendres hele skjemaet på nytt for hver endring i state. 
@@ -180,9 +154,11 @@ class FormValidated extends Component {
 
         return (
             <form onSubmit={this.submitForm} noValidate>
-                {addPropsToChildren(this.props.children, this.state.fields, this.handles)}
+                {addPropsToChildren(this.props.children, this.state.fields, this.handles, false)}
             </form>
         );
+
+
     }
 }
 

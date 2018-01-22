@@ -55,21 +55,6 @@ function elementIsInFieldList(element, state) {
     return false;
 }
 
-function getConstraints(props, state) {
-    const constraintsAttr = Object.keys(props)
-        .filter(attr => attr.indexOf("data-constraint") === 0)
-        .map(attr => attr.slice(16));
-
-    let constraints = {};
-    constraintsAttr.forEach(attr => {
-        constraints[attr] = state[
-            props["data-constraint-" + attr]
-        ].value;
-    });
-
-    return constraints;
-}
-
 export function addPropsToChildren(children, state, handles) {
 
 
@@ -77,13 +62,11 @@ export function addPropsToChildren(children, state, handles) {
         if (elementIsInFieldList(child, state)) {
 
             if (elementIsRadioField(child)) {
-                const constraints = getConstraints(child.props, state);
                 const fieldId = child.props.name;
 
                 const props = {
-                    checked: state[fieldId].value === child.props.value,
-                    onChange: handles.radioChange,
-                    ...constraints
+                    defaultChecked: child.props.defaultChecked,
+                    onChange: handles.radioChange(child.props.onChange)
                 };
 
                 if (child.props.required) {
@@ -95,48 +78,39 @@ export function addPropsToChildren(children, state, handles) {
             } 
 
             if (elementIsCheckboxField(child)) {
-                const constraints = getConstraints(child.props, state);
                 const fieldId = child.props.id;
 
                 const props = {
-                    checked: state[fieldId].value === true,
-                    onChange: handles.checkboxChange,
+                    defaultChecked: child.props.defaultChecked,
+                    onChange: handles.checkboxChange(child.props.onChange),
                     "aria-invalid": !state[fieldId].valid,
-                    "aria-errormessage": fieldId + "-errormessage",
-                    ...constraints
+                    "aria-errormessage": fieldId + "-errormessage"
                 };
 
                 return cloneElement(child, props);
             } 
 
             if (elementIsSelectField(child)) {
-                const constraints = getConstraints(child.props, state);
                 const fieldId = child.props.id;
 
                 const props = {
-                    onChange: handles.selectChange,
-                    value: state[fieldId].value,
+                    onChange: handles.selectChange(child.props.onChange),
+                    defaultValue: child.props.defaultValue,
                     "aria-invalid": !state[fieldId].valid,
-                    "aria-errormessage": fieldId + "-errormessage",
-                    ...constraints
+                    "aria-errormessage": fieldId + "-errormessage"
                 };
                 return cloneElement(child, props);
             }
 
             if (elementIsColorField(child)) {
-                const constraints = getConstraints(child.props, state);
-                const fieldId = child.props.id;
-
                 const props = {
-                    onChange: handles.colorChange,
-                    value: state[fieldId].value,
-                    ...constraints
+                    onChange: handles.colorChange(child.props.onChange),
+                    defaultValue: child.props.defaultValue,
                 };
                 return cloneElement(child, props);
             }
 
             if (elementIsTextField(child)) {
-                const constraints = getConstraints(child.props, state);
                 const fieldId = child.props.id;
 
                 const props = {
@@ -144,8 +118,7 @@ export function addPropsToChildren(children, state, handles) {
                     onBlur: handles.inputBlur(child.props.onBlur),
                     defaultValue: child.props.defaultValue,
                     "aria-invalid": !state[fieldId].valid,
-                    "aria-errormessage": fieldId + "-errormessage",
-                    ...constraints
+                    "aria-errormessage": fieldId + "-errormessage"
                 };
                 return cloneElement(child, props);
             }

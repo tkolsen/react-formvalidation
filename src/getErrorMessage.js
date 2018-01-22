@@ -1,7 +1,7 @@
 import e from "./errorMessages.no";
 
 export default function getErrorMessage(field) {
-    var validity = field.validity;
+    const validity = field.validity;
 
     if (validity.valid) {
         return "";

@@ -11,6 +11,6 @@ const e = {
     TYPE_MISMATCH_EMAIL: 'Oppgi en gyldig e-postadresse.',
     TYPE_MISMATCH_URL: 'Oppgi en gyldig URL.',
     VALUE_MISSING: 'Dette feltet må fylles ut.'
-}
+};
 
 export default e;
