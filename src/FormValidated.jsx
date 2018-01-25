@@ -129,8 +129,6 @@ class FormValidated extends Component {
         if (onChange) onChange(e);
     };
 
-    // TODO: Add file
-
 
     handles = {
         checkboxChange: this.checkboxChange,
