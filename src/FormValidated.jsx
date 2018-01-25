@@ -141,15 +141,6 @@ class FormValidated extends Component {
 
 
     render() {
-
-        // TODO: Nå rendres hele skjemaet på nytt for hver endring i state. 
-        // Kan dette optimaliseres?
-        // State må endres pga. constraints
-        // console.log('Remnder: ' + Date.now());
-        // Kan flytte addPropsToChildren til ComponentWillMount. Referer til funksjon som henter state, 
-        // i stedet for å hente verdien.
-
-
         return (
             <form onSubmit={this.submitForm} noValidate>
                 {addPropsToChildren(this.props.children, this.state.fields, this.handles, false)}
