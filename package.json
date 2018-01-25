@@ -1,6 +1,6 @@
 {
-  "name": "react-formvalidation",
-  "version": "0.1.5",
+  "name": "@tomols/react-formvalidation",
+  "version": "0.1.0",
   "description": "HTML 5 form validation for react",
   "main": "dist/index.js",
   "scripts": {
