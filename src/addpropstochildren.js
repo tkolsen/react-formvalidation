@@ -78,7 +78,7 @@ export function addPropsToChildren(children, state, handles) {
             } 
 
             if (elementIsCheckboxField(child)) {
-                const fieldId = child.props.id;
+                const fieldId = child.props.name;
 
                 const props = {
                     defaultChecked: child.props.defaultChecked,
@@ -91,7 +91,7 @@ export function addPropsToChildren(children, state, handles) {
             } 
 
             if (elementIsSelectField(child)) {
-                const fieldId = child.props.id;
+                const fieldId = child.props.name;
 
                 const props = {
                     onChange: handles.selectChange(child.props.onChange),
@@ -111,7 +111,7 @@ export function addPropsToChildren(children, state, handles) {
             }
 
             if (elementIsTextField(child)) {
-                const fieldId = child.props.id;
+                const fieldId = child.props.name;
 
                 const props = {
                     onChange: handles.inputChange(child.props.onChange),
