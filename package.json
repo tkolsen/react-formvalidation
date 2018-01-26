@@ -1,13 +1,13 @@
 {
   "name": "@tomols/react-formvalidation",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "HTML 5 form validation for react",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack --watch",
     "build": "webpack",
-    "publishAndPatch" : "npm version patch && webpack && npm publish"
+    "publishAndPatch": "npm version patch && webpack && npm publish"
   },
   "keywords": [],
   "author": "Kantega",
