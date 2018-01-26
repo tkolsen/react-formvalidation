@@ -42,7 +42,6 @@ function mapChildrenToFieldIds(children){
 
 export function generateInitialState(children) {
     const inputFields = mapChildrenToFieldIds(children);
-    console.log("inputFields", inputFields);
     const fields = inputFields.reduce((result, fieldId) => {
         result[fieldId] = {
             errorMessage: false,
