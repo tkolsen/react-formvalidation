@@ -21,7 +21,6 @@ class FormValidated extends Component {
     static defaultProps = {
         onBlur: {},
         onChange: {},
-        initialValues: {},
         customValidation: {}
     };
 

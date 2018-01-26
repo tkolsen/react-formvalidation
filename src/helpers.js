@@ -27,18 +27,23 @@ const tagTypes = [
     "select"
 ];
 
-export function generateInitialState(children) {
-    const inputFields = Children.map(children, child => {
+function mapChildrenToFieldIds(children){
+    let fieldIdsArray =[];
+    Children.forEach(children, child => {
         if (inputTypes.includes(child.props.type) || tagTypes.includes(child.type)) {
-            return cloneElement(child, child.props);
+            fieldIdsArray.push(child.props.id);
         } else if (elementHasChildren(child)) {
-            return cloneElement(child, {}, generateInitialState(child.children))
+            fieldIdsArray.push(mapChildrenToFieldIds(child.props.children));
         }
     });
+    return fieldIdsArray;
+}
 
-
-    const fields = inputFields.reduce((result, field) => {
-        result[field.props.id] = {
+export function generateInitialState(children) {
+    const inputFields = mapChildrenToFieldIds(children);
+    console.log("inputFields", inputFields);
+    const fields = inputFields.reduce((result, fieldId) => {
+        result[fieldId] = {
             errorMessage: false,
             valid: true
         };
