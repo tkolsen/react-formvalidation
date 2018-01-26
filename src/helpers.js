@@ -33,7 +33,7 @@ function mapChildrenToFieldIds(children){
         if (inputTypes.includes(child.props.type) || tagTypes.includes(child.type)) {
             fieldIdsArray.push(child.props.id);
         } else if (elementHasChildren(child)) {
-            fieldIdsArray.push(mapChildrenToFieldIds(child.props.children));
+            fieldIdsArray.push(...mapChildrenToFieldIds(child.props.children));
         }
     });
     return fieldIdsArray;
