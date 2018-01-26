@@ -30,9 +30,10 @@ const tagTypes = [
 function mapChildrenToFieldIds(children){
     let fieldIdsArray =[];
     Children.forEach(children, child => {
-        if(!child.props) return;
+        if(!child || !child.props) return;
         if (inputTypes.includes(child.props.type) || tagTypes.includes(child.type)) {
-            fieldIdsArray.push(child.props.id);
+            if(fieldIdsArray.includes(child.props.name)) return;
+            fieldIdsArray.push(child.props.name);
         } else if (elementHasChildren(child)) {
             fieldIdsArray.push(...mapChildrenToFieldIds(child.props.children));
         }
