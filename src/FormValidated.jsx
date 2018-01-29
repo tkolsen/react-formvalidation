@@ -49,17 +49,17 @@ class FormValidated extends Component {
         const formElements = e.target.elements;
         const fieldList = Object.keys(this.state.fields);
 
-        let fields = [];
+        let dataFields = [];
         for (let i = 0; i < formElements.length; i++) {
-            if (fieldList.indexOf(formElements[i].id) > -1) {
-                fields.push(formElements[i]);
+            if (fieldList.indexOf(formElements[i].name) > -1) {
+                dataFields.push(formElements[i]);
             }
         }
 
         let isValid = true;
 
-        const validations = fields.map(field => {
-            return this.validateField(field.id, field)
+        const validations = dataFields.map(field => {
+            return this.validateField(field.name, field)
                 .then(valid => {
                     if (!valid) {
                         isValid = false;
@@ -72,10 +72,22 @@ class FormValidated extends Component {
                 if (isValid) {
                     let values = {};
 
-                    for (let i = 0; i < formElements.length; i++) {
-                        const {id, value, type} = formElements[i];
+                    for (let i = 0; i < dataFields.length; i++) {
+                        const {name, value, type, checked} = formElements[i];
                         if (!["submit", "reset", "button"].includes(type)) {
-                            values[id] = value;
+                            if(type === "checkbox"){
+                                if(!values[name]){
+                                    values[name] = []
+                                }
+                                if(checked) values[name].push(value);
+                                else console.error("Checkbox element is missing value prop. All checkbox elements in form must have value prop set.", formElements[i]);
+                            }
+                            else if(type === "radio"){
+                                if(checked){
+                                    values[name] = value;
+                                }
+                            }
+                            else values[name] = value;
                         }
                     }
                     this.props.onSubmit(values);
@@ -86,8 +98,8 @@ class FormValidated extends Component {
 
     inputChange = onChange => e => {
         const field = e.target;
-        if (!this.state.fields[field.id].valid) {
-            this.validateField(field.id, field);
+        if (!this.state.fields[field.name].valid) {
+            this.validateField(field.name, field);
         }
         if (onChange) {
             onChange(e)
