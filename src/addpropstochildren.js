@@ -70,7 +70,7 @@ export function addPropsToChildren(children, state, handles) {
                 };
 
                 if (child.props.required) {
-                    props["aria-invalid"] = !state[fieldId].valid;
+                    props["aria-invalid"] = state[fieldId] && !state[fieldId].valid;
                     props["aria-errormessage"] = fieldId + "-errormessage";
                 }
 
