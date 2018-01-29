@@ -48,7 +48,7 @@ function elementIsErrorMessage(element) {
 function elementIsInFieldList(element, state) {
     if (element && element.props) {
         const fieldList = Object.keys(state);
-        if (fieldList.indexOf(element.props.id) > -1 || fieldList.indexOf(element.props.name) > -1) {
+        if (fieldList.indexOf(fieldList.indexOf(element.props.name) > -1)) {
             return true;
         }
     }

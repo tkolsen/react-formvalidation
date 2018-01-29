@@ -32,6 +32,10 @@ function mapChildrenToFieldIds(children){
     Children.forEach(children, child => {
         if(!child || !child.props) return;
         if (inputTypes.includes(child.props.type) || tagTypes.includes(child.type)) {
+            if(!child.props.name){
+                console.error("Input element is missing name prop. All input elements in form must have name prop set.", child);
+                return;
+            }
             if(fieldIdsArray.includes(child.props.name)) return;
             fieldIdsArray.push(child.props.name);
         } else if (elementHasChildren(child)) {
