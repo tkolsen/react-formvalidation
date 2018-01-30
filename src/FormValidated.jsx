@@ -73,7 +73,7 @@ class FormValidated extends Component {
                     let values = {};
 
                     for (let i = 0; i < dataFields.length; i++) {
-                        const {name, value, type, checked} = formElements[i];
+                        const {name, value, type, checked} = dataFields[i];
                         if (!["submit", "reset", "button"].includes(type)) {
                             if(type === "checkbox"){
                                 if(!values[name]){
