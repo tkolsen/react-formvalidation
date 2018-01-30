@@ -108,7 +108,7 @@ class FormValidated extends Component {
 
     inputBlur = onBlur => e => {
         const field = e.target;
-        this.validateField(field.id, field);
+        this.validateField(field.name, field);
         if (onBlur) onBlur(e)
     };
 
@@ -120,23 +120,23 @@ class FormValidated extends Component {
 
     selectChange = onChange => e => {
         const field = e.target;
-        if (!this.state.fields[field.id].valid) {
-            this.validateField(field.id, field);
+        if (!this.state.fields[field.name].valid) {
+            this.validateField(field.name, field);
         }
         if (onChange) onChange(e);
     };
 
     colorChange = onChange => e => {
         const field = e.target;
-        if (!this.state.fields[field.id].valid) {
-            this.validateField(field.id, field);
+        if (!this.state.fields[field.name].valid) {
+            this.validateField(field.name, field);
         }
         if (onChange) onChange(e);
     };
 
     checkboxChange = onChange => e => {
         const field = e.target;
-        this.validateField(field.id, field);
+        this.validateField(field.name, field);
         if (onChange) onChange(e);
     };
 
@@ -161,23 +161,23 @@ class FormValidated extends Component {
                 result[key] = updatedFieldList.fields[key];
             }
             return result;
-        }, {})
+        }, {});
 
 
         const newState = update(this.state, {
             fields: {$merge: newFields}
-        })
+        });
 
         let removedFields = Object.keys(newState.fields).reduce((result, key)=>{
             if(!Object.keys(updatedFieldList.fields).includes(key)){
                 result.push(key);
             }
             return result;
-        }, [])
+        }, []);
 
         const newState2 = update(newState, {
             fields: {$unset: removedFields}
-        })
+        });
 
         this.setState(newState2)
     }
