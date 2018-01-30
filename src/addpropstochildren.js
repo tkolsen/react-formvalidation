@@ -112,7 +112,6 @@ export function addPropsToChildren(children, state, handles) {
 
             if (elementIsTextField(child)) {
                 const fieldId = child.props.name;
-
                 const props = {
                     onChange: handles.inputChange(child.props.onChange),
                     onBlur: handles.inputBlur(child.props.onBlur),

@@ -4,7 +4,7 @@ import update from "immutability-helper";
 
 import getErrorMessage from "./getErrorMessage";
 import {addPropsToChildren} from "./addpropstochildren";
-import {addCustomValidation, generateInitialState} from "./helpers"
+import {addCustomValidation, generateInitialState, toMap, toObject} from "./helpers"
 
 
 class FormValidated extends Component {
@@ -151,7 +151,41 @@ class FormValidated extends Component {
     };
 
 
+
+
+    componentWillReceiveProps(nextProps){
+        if(!this.state) return;
+        let updatedFieldList = generateInitialState(nextProps.children);
+        let newFields = Object.keys(updatedFieldList.fields).reduce((result, key)=>{
+            if(!Object.keys(this.state.fields).includes(key)){
+                result[key] = updatedFieldList.fields[key];
+            }
+            return result;
+        }, {})
+
+
+        const newState = update(this.state, {
+            fields: {$merge: newFields}
+        })
+
+        let removedFields = Object.keys(newState.fields).reduce((result, key)=>{
+            if(!Object.keys(updatedFieldList.fields).includes(key)){
+                result.push(key);
+            }
+            return result;
+        }, [])
+
+        const newState2 = update(newState, {
+            fields: {$unset: removedFields}
+        })
+
+        this.setState(newState2)
+    }
+
+
     render() {
+
+
         return (
             <form onSubmit={this.submitForm} noValidate>
                 {addPropsToChildren(this.props.children, this.state.fields, this.handles, false)}
