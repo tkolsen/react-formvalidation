@@ -187,7 +187,7 @@ class FormValidated extends Component {
 
 
         return (
-            <form onSubmit={this.submitForm} noValidate>
+            <form onSubmit={this.submitForm} ref={this.props.ref} noValidate>
                 {addPropsToChildren(this.props.children, this.state.fields, this.handles, false)}
             </form>
         );
