@@ -15,7 +15,8 @@ class FormValidated extends Component {
         onSubmit: func.isRequired,
         onBlur: object,
         onChange: object,
-        customValidation: object
+        customValidation: object,
+        formRef: func
     };
 
     static defaultProps = {
@@ -187,7 +188,7 @@ class FormValidated extends Component {
 
 
         return (
-            <form onSubmit={this.submitForm} ref={this.props.ref} noValidate>
+            <form onSubmit={this.submitForm} ref={this.props.formRef} noValidate>
                 {addPropsToChildren(this.props.children, this.state.fields, this.handles, false)}
             </form>
         );
